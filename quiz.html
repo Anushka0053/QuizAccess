@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quiz Access</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .card {
+      background: #020617;
+      padding: 30px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 20px 40px rgba(0,0,0,.4);
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      border-radius: 6px;
+      border: none;
+      font-size: 15px;
+    }
+    input {
+      background: #020617;
+      color: #fff;
+      border: 1px solid #334155;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+    .error {
+      color: #f87171;
+      margin-top: 10px;
+    }
+    .link {
+      margin-top: 15px;
+      word-break: break-all;
+      background: #020617;
+      padding: 10px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>Get Your Quiz Link</h2>
+  <input type="email" id="email" placeholder="Registered email" />
+  <button onclick="getQuiz()">Get Quiz Link</button>
+  <div id="result"></div>
+</div>
+
+
+<script>
+const groupDistribution = {
+  group1: "https://wayground.com/join?gc=46892966",
+  group2: "https://wayground.com/join?gc=42174374",
+  group3: "https://wayground.com/join?gc=60655526",
+  group4: "https://wayground.com/join?gc=13469606",
+  group5: "https://wayground.com/join?gc=28673958",
+  group6: "https://wayground.com/join?gc=26576806",
+  group7: "https://wayground.com/join?gc=61179814",
+  group8: "https://wayground.com/join?gc=64587686",
+  group9: "https://wayground.com/join?gc=59344806",
+  group10: "https://wayground.com/join?gc=62162854"
+};
+
+const emailToGroup = {
+    "sharmanandika39@gmail.com": "group1",
+  "shrinathshukla6907@gmail.com": "group1",
+  "avishi.asati@gmail.com": "group1",
+  "uditsahu553@gmail.com": "group1",
+  "palashr2612@gmail.com": "group1",
+  "24cd10sn67@mitsgwl.ac.in": "group1",
+  "jsbaghel1729@gmail.com": "group1",
+  "25cd1as31@mitsgwl.ac.in": "group1",
+  "visheshpratapsingh9962@gmail.com": "group1",
+  "23ee10sa95@mitsgwl.ac.in": "group1",
+  "anushkayadav3607@gmail.com": "group1",
+  "24et10pr93@mitsgwl.ac.in": "group1",
+  "Bhadoriyaaneesha@gmail.com": "group1",
+  "24cb10ar18@mitsgwl.ac.in": "group1",
+  "24cd10kh32@mitsgwl.ac.in": "group1",
+  "24et10su132@mitsgwl.ac.in": "group1",
+  "sanavimokhriwale21@gmail.com": "group1",
+  "dkadmicrts@gmail.com": "group1",
+  "25et1ab7@mitsgwl.ac.in": "group1",
+  "24ir10pr54@mitsgwl.ac.in": "group2",
+  "25cd1an20@mitsgwl.ac.in": "group2",
+  "25mc1ab2@mitsgwl.ac.in": "group2",
+  "24ir10ta72@mitsgwl.ac.in": "group2",
+  "krishchouhan090@gmail.com": "group2",
+  "parvjain0804@gmail.com": "group2",
+  "shrivastavashlok44@gmail.com": "group2",
+  "24it10an22@gmail.com": "group2",
+  "25et1ma76@mitsgwl.ac.in": "group2",
+  "24cb10pr47@mitsgwl.ac.in": "group2",
+  "25ec1sh60@mitsgwl.ac.in": "group2",
+  "lochkarmayur03@gmail.com": "group2",
+  "25cd1ra106@mitsgwl.ac.in": "group2",
+  "khushirawatttt@gmail.com": "group2",
+  "24ec10sh105@mitsgwl.ac.in": "group2",
+  "24cb10ri59@mitsgwl.ac.in": "group2",
+  "24eo10oj24@mitsgwl.ac.in": "group2",
+  "prasun5096@gmail.com": "group2",
+  "25cd1kh70@mitsgwl.ac.com": "group2",
+  "25cd1sa119@mitsgwl.ac.in": "group3",
+  "jonutonu02@gmail.com": "group3",
+  "25el1ar140@mitsgwl.ac.in": "group3",
+  "24it10aa4@mitsgwl.ac.in": "group3",
+  "shreysahare@gmail.com": "group3",
+  "24cd10ri1@mitsgwl.ac.in": "group3",
+  "25io1va141@mitsgwl.ac.in": "group3",
+  "25io1ya146@mitsgwl.ac.in": "group3",
+  "25cdlam12@mitsgwl.ac.in": "group3",
+  "24ir10as18@mitsgwl.ac.in": "group3",
+  "23cd10sa60@mitsgwl.ac.in": "group3",
+  "25it1sh126@mitsgwl.ac.in": "group3",
+  "25it1vi152@mitsgwl.ac.in": "group3",
+  "25it1ja66@mitsgwl.ac.in": "group3",
+  "24io10pi54@mitsgwl.ac.in": "group3",
+  "25io1as36@mitsgwl.ac.in": "group3",
+  "24et10sa114@mitsgwl.ac.in": "group3",
+  "dineshadityagupta2006@gmail.com": "group3",
+  "25cd1mo82@mitsgwl.ac.in": "group3",
+  "sc2580927@gmail.com": "group4",
+  "jyotiradityashinde28@gmail.com": "group4",
+  "tanushkasengar@gmail.com": "group4",
+  "gargmilind913@gmail.com": "group4",
+  "25it1la75@mitsgwl.ac.in": "group4",
+  "25it1ad12@mitsgwl.ac.in": "group4",
+  "asthasapre@gmail.com": "group4",
+  "amanrathore6706@gmail.com": "group4",
+  "kurmidamini5@gmail.com": "group4",
+  "23ce10an14@mitsgwl.ac.in": "group4",
+  "dargarkrish@gmail.com": "group4",
+  "24ec10pr76@mitsgwl.ac.in": "group4",
+  "24mc10ma1@mitsgwl.ac.in": "group4",
+  "25cd1pr102@mitsgwl.ac.in": "group4",
+  "25cd1pr104@mitsgwl.ac.in": "group4",
+  "niketanjatwa629@gmail.com": "group4",
+  "25cd1mo83@mitsgwl.ac.in": "group4",
+  "25cd1sh126@mitsgwl.ac.in": "group4",
+  "25cd1su137@mitsgwl.ac.in": "group4",
+  "25cd1ri113@mitsgwl.ac.in": "group5",
+  "24et10mo78@mitsgwl.ac.in": "group5",
+  "23mc10ak6@mitsgwl.ac.in": "group5",
+  "pragyamadame26@gmail.com": "group5",
+  "25et1ak10@mitsgwl.ac.in": "group5",
+  "05062007ajj@gmail.com": "group5",
+  "24it10an20@mitsgwl.ac.in": "group5",
+  "25et1ji60@mitsgwl.ac.in": "group5",
+  "25mc1pr108@mitsgwl.ac.in": "group5",
+  "25ee1an18@mitsgwl.ac.in": "group5",
+  "25ee1su66@mitsgwl.ac.in": "group5",
+  "23ce10ha39@mitsgwl.ac.in": "group5",
+  "25cd1ha55@mitsgwl.ac.in": "group5",
+  "23ce10ti82@mitsgwl.ac.in": "group5",
+  "24ee10ta77@mitsgwl.ac.in": "group5",
+  "24ec10un115@mitsgwl.ac.in": "group5",
+  "23me10cpr71@mitsgwl.ac.in": "group5",
+  "24ee10ha27@mitsgwl.ac.in": "group5",
+  "24ee10ha24@mitsgwl.ac.in": "group5",
+  "riyasingh18072006@gmail.com": "group6",
+  "lalitpuriya18@gmail.com": "group6",
+  "25ec1jy26@mitsgwl.ac.in": "group6",
+  "25io1yo147@mitsgwl.ac.in": "group6",
+  "25et1ar31@mitsgwl.ac.in": "group6",
+  "swamiram619@gmail.com": "group6",
+  "24ee10sh67@mitsgwl.ac.in": "group6",
+  "24cd10aa1@mitsgwl.ac.in": "group6",
+  "khushburaut66@gmail.com": "group6",
+  "katthalpratyush17@gmail.com": "group6",
+  "23ec10ra99@mitsgwl.ac.in": "group6",
+  "jatinkirar81@gmail.com": "group6",
+  "24ee10pr52@mitsgwl.ac.in": "group6",
+  "24et10dh44@mitsgwl.ac.in": "group6",
+  "anivedshrivastava@gmail.com": "group6",
+  "24et10sh126@mitsgwl.ac.in": "group6",
+  "24et10an22@mitsgwl.ac.in": "group6",
+  "adityavinodtripathi@gmail.com": "group6",
+  "24mc10po97@mitsgwl.ac.in": "group6",
+  "24ai10pu55@mitsgwl.ac.in": "group7",
+  "mehtapratyush2701@gmail.com": "group7",
+  "anishkamittal2005@gmail.com": "group7",
+  "24it10as35@mitsgwl.ac.in": "group7",
+  "animesh07mac@gmail.com": "group7",
+  "rishabhgautam1122@gmail.com": "group7",
+  "25et1ma78@mitsgwl.ac.in": "group7",
+  "rathiayush2005@gmail.com": "group7",
+  "23cd10de20@mitsgwl.ac.in": "group7",
+  "25it1kr71@mitsgwl.in": "group7",
+  "25it1ku73@mitsgwl.ac.in": "group7",
+  "guptakartik1927@gmail.com": "group7",
+  "ixbluemanasshukla12@gmail.com": "group7",
+  "charu.saxena996@gmail.com": "group7",
+  "keshrisrijan92@gmail.com": "group7",
+  "vaibhavsinghbaghel3@gmail.com": "group7",
+  "ojhasaurabh22@gmail.com": "group7",
+  "23ec10sa110@mitsgwl.ac.in": "group7",
+  "vanshsagar266@gmail.com": "group7",
+  "udaysakwar207@gmail.com": "group8",
+  "25io1vi144@mitsgwl.ac.in": "group8",
+  "25ai1sh129@mitsgwl.ac.in": "group8",
+  "ray877631@gmail.com": "group8",
+  "harshpreetk858@gmail.com": "group8",
+  "25cd1la76@mitsgwl.ac.in": "group8",
+  "riyasaxenagwl@gmail.com": "group8",
+  "25cb1ne85@mitsgwl.ac.in": "group8",
+  "25io1su129@mitsgwl.ac.in": "group8",
+  "eshanika071@gmail.com": "group8",
+  "pramodkushwaha3379@gmail.com": "group8",
+  "25io1pr91@mitsgwl.ac.in": "group8",
+  "devamsinghbaghel128@gmail.com": "group8",
+  "toxinova123@gmail.com": "group8",
+  "25cb1mi80@mitsgwl.ac.in": "group8",
+  "25it1sa118@mitsgwl.ac.in": "group8",
+  "ankitdubey0533@gmail.com": "group8",
+  "harshitagupta4306@gmail.com": "group8",
+  "24ec10pr4@mitsgwl.ac.in": "group8",
+  "Jainprajeev15@gmail.com": "group9",
+  "24ce10pr64@mitsgwl.ac.in": "group9",
+  "24ce10va89@mitsgwl.ac.in": "group9",
+  "vedikasabharwal630@gmail.com": "group9",
+  "pxrzivul@gmail.com": "group9",
+  "maulijain141104@gmail.com": "group9",
+  "manaskukreja001@gmail.com": "group9",
+  "basant.tripathi77@gmail.com": "group9",
+  "ak00887934@gmail.com": "group9",
+  "23it10sh62@mitsgwl.ac.in": "group9",
+  "25ad1ar14@mitsgwl.ac.in": "group9",
+  "mishraanushka0503@gmail.com": "group9",
+  "25ec1sh57@mitsgwl.ac.in": "group9",
+  "ninad2103@gmail.com": "group9",
+  "patidaranery004@gmail.com": "group9",
+  "bhoomija.sh@gmail.com": "group9",
+  "sanskritigupta1171@gmail.com": "group9",
+  "aishwarypahariya0000@gmail.com": "group9",
+  "unnjain2005@gmail.com": "group9",
+  "sanyaanandani.work@gmail.com": "group10",
+  "shauryash6@gmail.com": "group10",
+  "25ec1an5@mitsgwl.ac.in": "group10",
+  "24cb10ab3@mitsgwl.ac.in": "group10",
+  "nigamshashank05@gmail.com": "group10",
+  "24it10sh128@mitsgwl.ac.in": "group10",
+  "tejussharma2006@gmail.com": "group10",
+  "neonikasandhu@gmail.com": "group10",
+  "25ec1av17@mitsgwl.ac.in": "group10",
+  "23ec10ay32@mitsgwl.ac.in": "group10",
+  "shantanuraghu123@gmail.com": "group10",
+  "madhavgupta128@gmail.com": "group10",
+  "24ee10de18@mitsgwl.ac.in": "group10",
+  "anantpathak188@gmail.com": "group10",
+  "25mc1kr61@mitsgwl.ac.in": "group10",
+  "23mc10ak5@mitsgwl.ac.in": "group10",
+  "anishkrajawat228@gmail.com": "group10",
+  "muskanchhonkar@gmail.com": "group10",
+  "aringupta2244@gmail.com": "group10",
+  "25et1ar29@mitsgwl.ac.in": "group10",
+  "veers5065@gmail.com": "group10",
+  "anujgupta30042007@gmail.com": "group10",
+  "devesh1shrivastava2@gmail.com": "group10",
+  "granthshivhare03@gmail.com": "group10"
+};
+
+function getQuiz() {
+  const email = document.getElementById("email").value.trim().toLowerCase();
+  const result = document.getElementById("result");
+  result.innerHTML = "";
+
+  if (!email || !email.includes("@")) {
+    result.innerHTML = "<p class='error'>Enter valid email</p>";
+    return;
+  }
+
+  const group = emailToGroup[email];
+  if (!group) {
+    result.innerHTML = "<p class='error'>Email not registered</p>";
+    return;
+  }
+
+  const link = groupDistribution[group];
+  result.innerHTML = `
+    <div class="link">
+      <strong>Your Quiz Link:</strong><br/>
+      <a href="${link}" target="_blank">${link}</a>
+    </div>
+  `;
+}
+
+</script>
+
+</body>
+</html>
